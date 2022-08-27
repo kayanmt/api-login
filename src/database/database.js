@@ -1,15 +1,11 @@
 const mongoose = require("mongoose");
 
-const connectDatabase = () => {
-  console.log("Conectando ao banco de dados...");
-
+module.exports = connectToDatabase = () => {
   mongoose
-    .connect(process.env.DATABASE_URL, {
+    .connect(process.env.URI_DATABASE, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
-    .then(() => console.log("MongoDB Conectado!"))
-    .catch((err) => console.log(`Erro ao conectar com o banco: ${err}`));
+    .then(() => console.log("Connected to Database"))
+    .catch((err) => console.log(`Error connecting to Database: ${err}`));
 };
-
-module.exports = connectDatabase;

@@ -1,20 +1,26 @@
-require("dotenv").config();
 const express = require("express");
+const app = express();
 const cors = require("cors");
-const connectDatabase = require("database/database");
-const userRoute = require("users/users.route");
-const authRoute = require("./auth/auth.route");
+const connectToDatabase = require("./database/database");
+require("dotenv").config();
+
+const authRoutes = require("./auth/auth.routes");
+const charactersRoutes = require("./characters/characters.routes");
+const usersRoutes = require("./users/users.routes");
+
+connectToDatabase();
+app.use(cors());
+app.use(express.json());
+
+const swagger = require("swagger-ui-express");
+const swaggerDocs = require("./docs/swagger.json");
+app.use("/docs", swagger.serve, swagger.setup(swaggerDocs));
+
+app.use("/auth", authRoutes);
+app.use("/characters", charactersRoutes);
+app.use("/users", usersRoutes);
 
 const port = process.env.PORT || 3001;
-const app = express();
-
-connectDatabase();
-
-app.use(cors());
-app.use("/users", userRoute);
-app.use(express.json());
-app.use("/auth", authRoute);
-
 app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`);
+  console.log(`Running at port ${port}`);
 });

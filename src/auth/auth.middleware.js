@@ -1,34 +1,31 @@
-require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const { findByIdUserService } = require("../users/users.service");
+const authServices = require("./auth.services");
 
 module.exports = (req, res, next) => {
-  const authHeader = req.headers.authorization;
+  const authorization = req.headers.authorization;
 
-  if (!authHeader) {
-    return res.status(401).send({ message: "O token não foi informado!" });
+  if (!authorization) {
+    return res.status(401).send({ message: "The token was not informed" });
   }
 
-  const parts = authHeader.split(" ");
+  const split = authorization.split(" ");
 
-  if (parts.length !== 2) {
-    return res.status(401).send({ message: "Token inválido!" });
+  if (!split || split[0] !== "Bearer" || split.length !== 2) {
+    return res.status(401).send({ message: "Invalid token" });
   }
 
-  const [scheme, token] = parts;
-
-  if (!/^Bearer^/i.test(scheme)) {
-    return res.status(401).send({ message: "Token malformatado!" });
-  }
-
-  jwt.verify(token, process.env.SECRET, async (err, decoded) => {
-    const user = await findByIdUserService(decoded.id);
-
-    if (err || !user || !user.id) {
-      return res.status(401).send({ message: "Token inválido!" });
+  jwt.verify(split[1], process.env.SECRET, async (err, decoded) => {
+    if (err) {
+      return res.status(401).send({ message: "Invalid token" });
     }
 
-    req.userId = user.id;
+    const user = await authServices.findUserById(decoded._id);
+
+    if (!user || !user._id) {
+      return res.status(401).send({ message: "Invalid token" });
+    }
+
+    req.userId = user._id;
 
     return next();
   });

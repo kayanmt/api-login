@@ -1,32 +1,34 @@
 {
-  "name": "api-login",
+  "name": "rick-and-morty-backend",
   "version": "1.0.0",
-  "description": "API login",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index",
-    "start": "node src/index"
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kayanmt/api-login.git"
+    "url": "git+https://github.com/DouglasVolcato/rick-and-morty-backend.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "backend",
+    "api"
+  ],
+  "author": "Douglas Volcato",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kayanmt/api-login/issues"
+    "url": "https://github.com/DouglasVolcato/rick-and-morty-backend/issues"
   },
-  "homepage": "https://github.com/kayanmt/api-login#readme",
+  "homepage": "https://github.com/DouglasVolcato/rick-and-morty-backend#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.5.2"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.19"
+    "mongoose": "^6.5.2",
+    "nodemon": "^2.0.19",
+    "swagger-ui-express": "^4.5.0"
   }
 }
